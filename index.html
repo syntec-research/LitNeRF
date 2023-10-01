@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="LitNeRF">
+  <meta name="keywords" content="LitNeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LitNeRF</title>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="./static/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src=".static/js/jquery.min.js"></script> <!--https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js-->
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<style>
+  .rotate_image {
+      -webkit-transform: rotate(270deg);
+      -moz-transform: rotate(270deg);
+      -ms-transform: rotate(270deg);
+      -o-transform: rotate(270deg);
+      transform: rotate(270deg);
+      margin: 100px 0 50px 0;
+  }
+</style>
+
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">LitNeRF</h1> <br\>
+          <h2 class="title is-3 publication-title"> Intrinsic Radiance Decomposition for High-Quality View Synthesis and Relighting of Faces</h2>
+          <div class="is-size-5 publication-authors">
+          <div class="is-size-5 publication-authors">
+          	<span class="author-block"><a href="https://krips89.github.io/profile_page/" target="_blank">Kripasindhu Sarkar</a><sup>1</sup>,</span>	
+            <span class="author-block"><a href="https://ait.ethz.ch/people/buehler" target="_blank">Marcel C. Bühler</a><sup>1,2</sup>,</span>
+            <span class="author-block"><a href="https://ait.ethz.ch/people/lig" target="_blank">Gengyan Li</a><sup>1,2</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=pe5XLTEAAAAJ&amp;hl=en" target="_blank">Daoye Wang</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://dvicini.github.io/" target="_blank">Delio Vicini</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=FaLQzRAAAAAJ&hl=en" target="_blank">Jérémy Riviere</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://www.zhangyinda.com/" target="_blank">Yinda Zhang</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=dznX1DMAAAAJ&amp;hl=es" target="_blank">Sergio Orts-Escolano</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://www.paulogotardo.com/" target="_blank">Paulo Gotardo</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://thabobeeler.com/" target="_blank">Thabo Beeler</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://www.meka.page/" target="_blank">Abhimitra Meka</a><sup>1</sup></span>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Google</span>
+              <span class="author-block"><sup>2</sup>ETH Zurich</span>
+            </div>
+            <div class="is-size-5 publication-authors">
+            <br/>
+              <span class="author-block">ACM SIGGRAPH ASIA 2023</span>
+            </div>
+          </div>
+              <!--span class="author-block">
+               Kripasindhu Sarkar&emsp; Marcel Bühler<sup>*</sup>&emsp;  Simon Li<sup>*</sup>&emsp; Daoye Wang&emsp;  Delio Vicini&emsp; Jérémy Riviere
+               <p/> 
+				
+Paulo Gotardo&emsp; Sergio Orts-Escolano&emsp; Yinda Zhang&emsp; Thabo Beeler&emsp;  Abhimitra Meka
+
+			<p><b>Google</b>, <sup>*</sup>ETHZ</p>
+              </span-->
+           
+              <div class="columns is-centered">
+
+
+      </div>
+      
+            </div>
+            
+            
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--span class="author-block">
+               Kripasindhu Sarkar <sup>(krsarkar@)</sup>, Marcel Bühler <sup>(buehlmar@)</sup>, Simon Li <sub>(simli@)</sub>, 
+               <p/> 
+                Daoye Wang (daoye@), Delio Vicini (vicini@), Jérémy Riviere (jmriviere@), Paulo Gotardo (gotardo@), 
+               <p/>
+               Sergio Orts-Escolano (sorts@),
+               Yinda Zhang (yindaz@), Thabo Beeler (tbeeler@), Abhimitra Meka (abhim@)
+              </span-->
+              
+
+ 
+<!--section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+         <p style="color:red">
+              As the patent of this work is being filed right now, please do not share externally!!!
+          </p>
+
+      </div>
+      <div class="columns is-centered">
+          <p> POC: krsarkar@ and abhim@</p>
+      </div>
+    </div>
+  </div>
+</section -->
+         
+
+
+
+<div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="./static/docs/papers_646s2-accepted.pdf" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <svg class="svg-inline--fa fa-file-pdf fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-pdf" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"></path></svg><!-- <i class="fas fa-file-pdf"></i> Font Awesome fontawesome.com -->
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              
+            </div>
+      
+          </div>
+
+
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+      <div class="column">
+        <div class="item">
+		<img src="./static/images/teaser.png" alt="Italian Trulli" height="100%">
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+
+
+<!--h3 class="title is-4">|<a href="./static/images/teaser.png"> <b>Paper (pdf)</b></a>| <h3 -->
+
+            
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          High-fidelity, photorealistic 3D capture of a human face is a long-standing problem in computer graphics -- the complex material of skin, intricate geometry of hair, and fine scale textural details make it challenging. Traditional techniques rely on very large and expensive capture rigs to reconstruct explicit mesh geometry and appearance maps and require complex differentiable path-tracing to achieve photorealistic results. More recent volumetric methods (\eg, NeRFs) have enabled view-synthesis and sometimes relighting by learning an implicit representation of the density and reflectance basis, but suffer from artifacts and blurriness due to the inherent ambiguities in volumetric modeling. These problems are further exacerbated when capturing with few cameras and light sources. We present a novel technique for high-quality capture of a human face for 3D view synthesis and relighting using a sparse, compact capture rig consisting of 15 cameras and 15 lights. Our method combines a volumetric representation of the face reflectance with traditional multi-view stereo based geometry reconstruction. The proxy geometry allows us to anchor the 3D density field to prevent artifacts and guide the disentanglement of intrinsic radiance components of the face appearance such as diffuse and specular reflectance, and Direct Light Transport (shadowing) fields. 
+Our hybrid representation significantly improves the state-of-the-art quality for arbitrarily dense renders of a face from desired camera viewpoint as well as environmental, directional, and near-field lighting.
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<hr style="width:30%; margin: auto;" />
+
+<!--
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+      <div class="column">
+        <div class="item">
+		<img src="./static/images/teaser.png" alt="Italian Trulli" height="100%>
+
+         
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="column is-centered has-text-centered">
+      <div class="content">
+        <h2 class="title is-3"></h2>
+      <div class="content has-text-justified">
+    
+          <p>
+            
+	
+          </p>
+    </div>
+    </div>
+    </div>
+  </div>
+-->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="column is-centered has-text-centered">
+      <div class="content">
+        <h1 class="title is-3">Results</h1>
+      <div class="content has-text-justified">
+    
+          <p>
+              * We recommend using the Chrome or Safari browser to correctly display all visuals.
+	
+          </p>
+    </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="column is-centered has-text-centered">
+      <div class="content">
+        <h2 class="title is-3">Intrinsic decomposition</h2>
+  </div>
+</section>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+      <div class="column">
+        <div class="item">
+		<img src="./static/images/high_res_decomposition_gt.png" alt="Italian Trulli" height="100%">
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+      <div class="column">
+        <div class="content">
+                  <h3 class="has-text-centered">Novel View Synthesis on an input light direction</h4>
+
+        </div>
+        <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline width="800">
+            <source src="./static/videos/kkMk2WiGlq4I8cRhJn8oMLbK2TTT-eB/multi_view.mp4"
+                    type="video/mp4">
+          </video>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+      <div class="column">
+        <div class="content">
+                  <h3 class="has-text-centered">Decomposition</h4>
+
+        </div>
+       
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+    
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Diffuse Reflectance</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/kkMk2WiGlq4I8cRhJn8oMLbK2TTT-eB/multi_view_albedo.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Directional Scat.</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/kkMk2WiGlq4I8cRhJn8oMLbK2TTT-eB/multi_view_spec.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Direct Light Transport</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/kkMk2WiGlq4I8cRhJn8oMLbK2TTT-eB/multi_view_shadow_map.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Indirect</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="0rV_rgb" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/kkMk2WiGlq4I8cRhJn8oMLbK2TTT-eB/multi_view_indirect.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+      <div class="column">
+        <div class="content">
+                  <h3 class="has-text-centered">NVS from Environment-Maps</h4>
+
+        </div>
+       
+      </div>
+    </div> 
+  </div>
+</div>
+
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+    
+      <div class="column">
+        
+        <div class="item">
+          <img width="50%" src="./static/images/envmaps/openfootage.png" type="image"
+          </img>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/envmap/e1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        
+        <div class="item">
+          <img width="50%" src="./static/images/envmaps/377-free-hdri-skies-com.png" type="image"
+          </img>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/envmap/e2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        
+        <div class="item">
+          <img width="50%" src="./static/images/envmaps/modern_buildings.png" type="image"
+          </img>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/envmap/e3.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        
+        <div class="item">
+          <img width="50%" src="./static/images/envmaps/courtyard.png" type="image"
+          </img>
+        </div>
+        <div class="item">
+          <video poster="" id="0rV_rgb" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/envmap/e4.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="column is-centered has-text-centered">
+      <div class="content">
+        <h3 class="title is-3">Detailed Results -- Directional Lights</h3>
+    </div>
+    </div>
+  </div>
+</section>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">RGB</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/2HwqIncJRz9q_nS6qK8Z_eCnFoQzIL2u/light_swipe_horizontal.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Diffuse Reflectance</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/2HwqIncJRz9q_nS6qK8Z_eCnFoQzIL2u/albedo.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Directional Scat.</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/2HwqIncJRz9q_nS6qK8Z_eCnFoQzIL2u/light_swipe_horizontal_spec.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Direct Light Transport</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/2HwqIncJRz9q_nS6qK8Z_eCnFoQzIL2u/light_swipe_horizontal_shadow_map.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Indirect</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="0rV_rgb" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/2HwqIncJRz9q_nS6qK8Z_eCnFoQzIL2u/light_swipe_horizontal_indirect.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">RGB</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/directional/rgb/mVz-MqF-2zFkabgxrvR0-a0FBi7OqtjV_ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Diffuse Reflectance</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/directional/diffuse/mVz-MqF-2zFkabgxrvR0-a0FBi7OqtjV_ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Directional Scat.</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/directional/spec/mVz-MqF-2zFkabgxrvR0-a0FBi7OqtjV_ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Direct Light Transport</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/directional/shadow/mVz-MqF-2zFkabgxrvR0-a0FBi7OqtjV_ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Indirect</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="0rV_rgb" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/directional/indirect/mVz-MqF-2zFkabgxrvR0-a0FBi7OqtjV_ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">RGB</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline width="500">
+            <source src="./static/videos/directional/rgb/oBNE-quDOUuFUXi4wDd4cDmIPHCmGJQg_ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Directional Scatering (Note the moving highlights)</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline width="500">
+            <source src="./static/videos/directional/spec/oBNE-quDOUuFUXi4wDd4cDmIPHCmGJQg_ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      
+    </div> 
+  </div>
+</div>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="column is-centered has-text-centered">
+      <div class="content">
+        <h3 class="title is-3">Near Point Light Relighting</h3>
+          <p>
+              Intrinsic field decompositions for a moving near point light, corresponding to Fig. 6 in the paper:
+	
+          </p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+      <div class="column">
+        <div class="item">
+    <img src="./static/images/near_field_mult2.png" alt="Italian Trulli" height="100%>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Point light</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mVz-MqF-2zFkabgxrvR0-a0FBi7OqtjV/light_straight.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Diffuse Reflectance</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mVz-MqF-2zFkabgxrvR0-a0FBi7OqtjV/light_straight_albedo.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Directional Scat.</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mVz-MqF-2zFkabgxrvR0-a0FBi7OqtjV/light_straight_spec.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Direct Transport</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mVz-MqF-2zFkabgxrvR0-a0FBi7OqtjV/light_straight_shadow_map.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Indirect</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="0rV_rgb" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mVz-MqF-2zFkabgxrvR0-a0FBi7OqtjV/light_straight_indirect.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">RGB</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/point/rgb/kkMk2WiGlq4I8cRhJn8oMLbK2TTT-eB.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Diffuse Reflectance</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/point/diffuse/kkMk2WiGlq4I8cRhJn8oMLbK2TTT-eB__ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Directional Scat.</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/point/spec/kkMk2WiGlq4I8cRhJn8oMLbK2TTT-eB__ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Direct Transport</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/point/shadow/kkMk2WiGlq4I8cRhJn8oMLbK2TTT-eB__ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Indirect</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="0rV_rgb" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/point/indirect/kkMk2WiGlq4I8cRhJn8oMLbK2TTT-eB__ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<br/><br/>
+  <div class="content">
+          <h3 class="has-text-centered">More Results with near-fied, point light relighting</h4>
+        </div>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/point/rgb/k43_2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/point/rgb/oBNE-quDOUuFUXi4wDd4cDmIPHCmGJQg_ds4_olat_1l_1v_indirect_mult2real.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/point/rgb/F_EWM6hVys43mn4izlV-5zIst5rxdKU0.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+ 
+    </div> 
+  </div>
+</div>
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="column is-centered has-text-centered">
+      <div class="content">
+        <h3 class="title is-3">Environment relighting</h3>
+    </div>
+    </div>
+  </div>
+</section>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline width=450>
+            <source src="./static/videos/envmap/044-free-hdri-skies-relit.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline width=450>
+            <source src="./static/videos/envmap/Sun_B_rotating_v2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div> 
+    </div> 
+  </div>
+</div>
+
+<br><br><br>
+<hr style="width:30%; margin: auto;" />
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="column is-centered has-text-centered">
+      <div class="content">
+        <h2 class="title is-3 has-text-centered">Comparison to state-of-the-art</h2>
+  Qualitative comparison in directional relighitng.
+  In contrast to LitNeRF, the baseline methods cannot perform near-field relighting. 
+      </div>
+    </div>
+</div>
+</section>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">NeRF-SHL [Li et al. ToG 2022]</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/sota/eyenerf.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">NLT [Zhang et al. ToG 2021]</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/sota/nlt.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Ours</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/sota/ours.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="column is-centered has-text-centered">
+      <div class="content">
+        <h2 class="title is-3 has-text-centered">Ablation Study</h2>
+      </div>
+    </div>
+</div>
+</section>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Without dilated-mesh bounded integration</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline width=450>
+            <source src="./static/videos/ablation/no_shell.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">With dilated-mesh bounded integration (ours)</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline width= 450>
+            <source src="./static/videos/ablation/shell.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Without light visibility conditioning</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline width=450>
+            <source src="./static/videos/ablation/no_light_visibility.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">With light visibility conditioning (ours)</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline width=450>
+            <source src="./static/videos/ablation/light_visibility.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="column is-centered has-text-centered">
+      <div class="content">
+        <h2 class="title is-3 has-text-centered">Limitations</h2>
+      LitNeRF relies on alpha matting to segment foreground & background, inaccuracies cause backgroud regions to be included in the model or leave foreground pixels outside the fitting. The indirect chromatic radiance can present extrapolation artifacts; it would benefit from better regularization in future work.
+      </div>
+    </div>
+</div>
+</section>
+
+<div class="column is-centered has-text-centered">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">RGB</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/directional/F_EWM6hVys43mn4izlV-5zIst5rxdKU0/composite.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Diffuse Reflectance</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/directional/F_EWM6hVys43mn4izlV-5zIst5rxdKU0/albedo.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Directional Scat.</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/directional/F_EWM6hVys43mn4izlV-5zIst5rxdKU0/spec.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Direct Transport</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="light_swipe_horizontal" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/directional/F_EWM6hVys43mn4izlV-5zIst5rxdKU0/shadow_map.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="column">
+        <div class="content">
+          <h3 class="has-text-centered">Indirect</h4>
+        </div>
+        <div class="item">
+          <video poster="" id="0rV_rgb" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/directional/F_EWM6hVys43mn4izlV-5zIst5rxdKU0/indirect.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+
+
+<script>
+    // Add custom js here.
+</script>
+
+
+</body>
+</html>
